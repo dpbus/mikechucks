@@ -1,6 +1,7 @@
 use Rack::Static,
   :urls => ["/", "/images"],
-  :root => "public"
+  :root => "public",
+  :index => "index.html"
 
 run lambda { |env|
   [
