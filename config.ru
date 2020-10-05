@@ -1,11 +1,14 @@
-require 'rubygems'
-require 'rack/canonical_host'
-
-use Rack::CanonicalHost, ENV['CANONICAL_HOST'] if ENV['CANONICAL_HOST']
-
 use Rack::Static,
-  urls: ['/images', '/css'],
-  root: 'public',
-  index: 'index.html'
+  :urls => ["/images", "/js", "/css"],
+  :root => "public"
 
-run Rack::File.new('public')
+run lambda { |env|
+  [
+    200,
+    {
+      'Content-Type'  => 'text/html',
+      'Cache-Control' => 'public, max-age=86400'
+    },
+    File.open('public/index.html', File::RDONLY)
+  ]
+}
